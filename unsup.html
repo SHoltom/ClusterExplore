@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    
+       <link rel="icon" type="image/jpeg" href="static/images/cluster_favicon.jpg" />
+		<title>ClusterExplore : Comparing clustering techniques</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	     <link rel="stylesheet" href="static/css/bootstrap.min.css"/>
+         <script src="static/js/jquery.js"></script>
+          <script src="static/js/bootstrap.min.js"></script>
+          <link href="static/css/bootstrap-modal-carousel.css" rel="stylesheet" />
+
+<script type="text/javascript">
+  console.log(sessionStorage.SessionName);
+     if (sessionStorage.SessionName==undefined) {
+ 		$(window).load(function(){
+   			     $('#myModal').modal();
+  		  });
+  		   sessionStorage.SessionName =1;  
+  		console.log("firsttime");
+  		 console.log(sessionStorage.SessionName);
+  		}
+</script>
+<style>
+
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+		overflow:scroll;
+      }
+         body p {
+         
+     	text-align: justify;
+  		-webkit-hyphens: auto;
+  		-moz-hyphens: auto;
+  		-ms-hyphens: auto;
+  		 hyphens: auto;
+  		
+  		 font-family: "Helvetica Neue";
+		 text-rendering: optimizeLegibility;
+}
+canvas { 
+      width: 100%; 
+      height: 100%;
+      
+      margin-bottom: 12px;
+      margin-left: 10px; 
+      margin-top:-190px;
+    }
+
+.row {
+        padding: 0px 110px;
+         margin-left: 10px;
+		margin-bottom: 12px;
+
+		background-color:  #ffffff;
+		border: 1px solid #ffffff;
+		border-radius: 4px
+		
+  		 font-family: "Helvetica Neue";
+		
+      }
+	    
+
+
+	       
+
+.text{
+  font-size:10px;
+  text-transform:capitalize;
+}
+
+#containerss {
+  margin:1px 1%;
+   margin-left: -190px;
+  height:100%;
+  overflow:scroll;
+  background: #e7f9ff;
+  width:67%;
+  -moz-border-radius: 100px / 50px;
+  -webkit-border-radius: 100px / 50px;
+ border-radius: 360px / 310px;
+ float:left;
+} 
+.hidden { 
+  display: none; 
+}
+div.tooltip {
+  color: #222; 
+  background: #fff; 
+  padding: .5em; 
+  text-shadow: #f5f5f5 0 1px 0;
+  border-radius: 2px; 
+  box-shadow: 0px 0px 2px 0px #a6a6a6; 
+  opacity: 0.9; 
+  position: absolute;
+}
+
+	#chart {
+		   position: absolute;
+		  top:30%;
+		  right:5%;
+		   
+   	}	
+   	
+   	
+  
+
+       .btn .glyphicon + span {
+				margin-left: .2em;
+			}
+
+
+#textboxes{
+  position: absolute;
+		  top:83%;
+		  right:20%;
+}
+      
+ 
+</style>
+
+	<!--	<link rel="stylesheet" type="text/css" href="DataProjector.css">-->
+	<link rel="stylesheet" href="static/css/bootstrap.css" media="screen" />
+
+	</head>
+	
+	<body >
+	
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">ClusterExplore</a>
+          </div>
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+              <li ><a href="index">Supervised</a></li>
+               <li  ><a href="robustclustering">Supervised cluster detection</a></li>
+            
+               <li ><a href="semisuper">Semi-Supervised</a></li>
+                <li class="active"><a href="unsup">Unsupervised</a></li>
+                
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+   
+
+<div class="container">
+
+ <div class="row">
+ <h2>Exploring the patterns amongst VAT customers</h2>
+<!-- <a href="#" class="btn btn-xs btn-primary " data-toggle="modal" data-target="#largeModal" ><span class="glyphicon glyphicon-fullscreen"></span> Open overview</a>-->
+ <section id='prototypes-warning' style="right:-70em">
+    
+    <b> Disclaimer:</b> Best viewed on a 15" Retina display with Chrome 38.0.<br/>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please reset the zoom on your browser.
+    </p>
+     </section>
+	
+
+          
+  	<div class="modal fade bs-example-modal-lg"  id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" >
+    <div class="modal-content">
+     <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+       <!-- <h4 class="modal-title" id="myModalLabel" align="center"> <span>Project Overview </span><br/></h4>-->
+		
+          </div>
+     
+      <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+
+  
+<!-- <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+              <div class="modal-body">
+           
+     	
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>-->
+    
+
+  <!-- Wrapper for slides -->
+ <div class="carousel-inner">
+
+   
+       <div class="item active">
+      
+  
+        <!--   <img src="static/images/Tabs4.png" alt="Tab desc screen" width="80%" height="70%" style="margin-top:160px"> -->
+           <p style="margin-left:55px;margin-top:230px;font-size:25px;">On this page: <strong>Unsupervised </strong> clustering using Kernel density estimation. </p>
+           
+    
+	     
+        
+      </div>
+
+        <div class="item">
+     <div class="carousel-caption" style="bottom:300px;font-size:22px">
+            <a href="http://www.inside-r.org/packages/cran/pdfCluster" target="_blank">Clustering via Kernel density estimation </a>.
+        
+      </div>
+             <img src="static/images/PDFCluster.png" alt="PDFCluster Advantages and Disadvantages" width="80%" height="60%"  style="margin-top:96px"> 
+	   
+     
+    </div>
+    
+    
+    <div class="item">
+      
+  
+           <img src="static/images/Keyfindings4.png" alt="Key findings screen" width="80%" height="70%" style="margin-top:120px"> 
+	     
+        
+      </div>  
+      <div class="item">
+      <img src="static/images/CLusterIntro.png" alt="ClusterIntro screen" width="80%" height="60%" > 
+	   <div class="carousel-caption">
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+  </a>
+  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+  </a>
+</div>
+    </div>
+  </div>
+</div>
+
+<!--<p>
+     Each point represents an individual VAT payee mapped to the PCA coordinate system.
+		
+</p>-->
+
+ 
+	<div id="toolbar">
+		<!--	Display:
+			<span class="button" id="menuButton">[M]enu</span>
+			<span class="button" id="infoButton">[I]nfo</span><br/>
+		   Camera:
+		   <span class="button" id="perspectiveButton">[P]erspective</span>
+			<span class="button" id="orthographicButton">[O]rthographic</span>
+			<span class="button" id="dualButton">[D]ual</span>
+		   <span class="button" id="resetButton">[R]eset</span><br/>-->
+		 <!--  	Method:
+		   <span class="button" id="perspectiveButton">Supervised</span>
+		    <span class="button" id="boxButton1">Robust</span>
+		  <span class="button" id="boxButton2">Semi-supervised</span>
+			 <span class="button" id="boxButton3">Unsupervised</span>
+		  	   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+			Tools:
+		 <!--  <span class="button" id="clearButton">[C]lear</span>
+		   <span class="button" id="boxButton">[B]ox</span>
+		   <span class="button" id="selectButton">[S]elect</span>
+		   <span class="button" id="viewportButton">[V]iewport</span>-->
+		   <span class="button" id="viewTopButton">[1]Top</span>
+		   <span class="button" id="viewFrontButton">[2]Front</span>
+		   <span class="button" id="viewSideButton">[3]Side</span>
+		   <span class="button" id="spinLeftButton">[&lt;]Left</span>
+		   <span class="button" id="spinStopButton">[ ]Stop</span>
+		   <span class="button" id="spinRightButton">[&gt;]Right</span>
+		   <span class="button" id="animateButton">[A]nimate</span>
+		    <span class="button" id="resetButton">[R]eset</span>
+		    
+		</div>
+		<h3>	<br/>
+	</h3>
+     
+		<div id="menu">
+	       Select Clusters:<br/><br/>
+			<span class="toggle" id="toggleAll"  >[+]</span><span class="button" id="buttonAll" > All</span><br/>
+		</div>
+
+		
+		
+		 <div  id="containerC" >
+      
+       
+    </div> 
+     <a href="#" class="btn btn-xs btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg" ><span class="glyphicon glyphicon-fullscreen"></span> Open overview</a>
+
+
+      <div id="chart"></div>
+ <div id="textboxes"> 
+ <h5 style="margin-left: 0px"> Cluster Sizes (% Total Population)</h5>
+ <textarea id="number-box" rows="1" cols="4">
+49.4%
+</textarea> 
+ <textarea id="number-box1" rows="1" cols="4">
+50.6%
+</textarea> 
+ 
+</div>
+	  
+	</div>
+
+	   </div>
+
+	
+	
+
+		
+	
+	<!-- <script src="./d3.v3.min.js"></script>-->
+	
+	
+		<script type="text/javascript">
+		
+		if (typeof(Storage) == "undefined" ) {
+  		      alert("Your browser does not support HTML5 localStorage. Try upgrading.");
+			} 
+		else {
+ 	 		    console.log("Both localStorage and sessionStorage support is there.");
+	    	   	 window.localStorage.clear();
+  	  	
+				 var opacity =[0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5];
+		
+		     
+		       window.localStorage["myOpacity"] = JSON.stringify(opacity);
+		      window.localStorage["clusteringFNAME"] = "static/data/docfile_pdfcluster.JSON";
+		      window.localStorage["clusteringID"] = "Unsupervised";
+ 		 
+		}
+
+    
+	</script>
+	<script src="static/js/d3.v3.min.js"></script>
+
+	<script src="static/js/RadarChart.js"></script>
+
+	
+    <script type="text/javascript" src="static/js/script.js"></script>
+
+       	
+		<script src="static/js/three.min.js"></script>
+		<script src="static/js/TweenLite.min.js"></script>
+		<script src="static/js/TrackballControls.js"></script>
+ <script type="text/javascript" src="static/js/viewportSize-min.js"></script>
+
+		<script src="static/js/DataProjector1.js"></script>
+  
+	</body>
+</html>
